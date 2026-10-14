@@ -42,9 +42,9 @@ button{font-family:inherit}
 nav{position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(26,20,17,.88);backdrop-filter:blur(10px);color:var(--paper);font-size:.88rem}
 .nav-in{display:flex;align-items:center;justify-content:space-between;gap:12px;height:56px;max-width:1040px;margin:0 auto;padding:0 clamp(12px,3vw,28px)}
 .left{display:flex;align-items:center;gap:12px}
-.lang{display:inline-flex;border:1.5px solid rgba(244,236,223,.35);border-radius:999px;padding:2px}
-.lang button{border:0;background:transparent;color:var(--paper);min-height:34px;min-width:44px;padding:0 12px;border-radius:999px;font-weight:600;font-size:.78rem;letter-spacing:.06em;cursor:pointer}
-.lang button[aria-pressed=true]{background:var(--flame);color:var(--ink)}
+.right{display:flex;align-items:center;gap:clamp(8px,2vw,20px)}
+.langbtn{border:0;background:transparent;color:var(--paper);min-height:44px;min-width:44px;padding:0 8px;font-weight:600;font-size:.82rem;letter-spacing:.08em;cursor:pointer;opacity:.85}
+.langbtn:hover{opacity:1;color:var(--flame)}
 .brand{display:flex;align-items:center;gap:8px;font-family:var(--serif);font-weight:700;text-decoration:none;font-size:1rem}
 .brand svg{width:26px;height:26px;flex:none}
 .links{display:flex;gap:20px;align-items:center}
@@ -171,21 +171,20 @@ footer li{margin-bottom:8px}
 <nav aria-label="Navigasi utama">
   <div class="nav-in">
     <div class="left">
-      <div class="lang" role="group" aria-label="Bahasa / Language">
-        <button type="button" data-lang="id" aria-pressed="true" lang="id">ID</button>
-        <button type="button" data-lang="en" aria-pressed="false" lang="en">ENG</button>
-      </div>
       <a class="brand" href="#top">
         <svg viewBox="0 0 64 64" aria-hidden="true"><path fill="#ff7a1f" d="M33 7c1.5 9.500 12 15.500 12 29.500C45 48 39.500 56 32 56s-13-7.500-13-16.500c0-7 3.500-10.500 6.500-16 .8 5 3.200 7.500 5.700 8.200C29.500 24 28.500 15 33 7Z"/><path fill="#ffd36b" d="M32 56c-5 0-8.500-4-8.500-9 0-5.500 5-7.500 7-13.500 3.500 4 10 7.500 10 13.500 0 5-3.500 9-8.500 9Z"/></svg>
         <span>Api yang Dipelihara</span>
       </a>
     </div>
-    <div class="links">
-      <a href="#skala" data-i="nSkala"></a><a href="#bukan-alam" data-i="nSebab"></a><a href="#murah" data-i="nEkon"></a><a href="#hukum" data-i="nHukum"></a><a href="#solusi" data-i="nSolusi"></a><a href="#aksi" data-i="nAksi"></a>
+    <div class="right">
+      <div class="links">
+        <a href="#skala" data-i="nSkala"></a><a href="#bukan-alam" data-i="nSebab"></a><a href="#murah" data-i="nEkon"></a><a href="#hukum" data-i="nHukum"></a><a href="#solusi" data-i="nSolusi"></a><a href="#aksi" data-i="nAksi"></a>
+      </div>
+      <button class="langbtn" id="langBtn" type="button">ID</button>
+      <button class="burger" id="burger" type="button" aria-expanded="false" aria-controls="mmenu" data-ia="menu">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path id="bpath" d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
     </div>
-    <button class="burger" id="burger" type="button" aria-expanded="false" aria-controls="mmenu" data-ia="menu">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path id="bpath" d="M4 7h16M4 12h16M4 17h16"/></svg>
-    </button>
   </div>
   <div class="mmenu" id="mmenu">
     <a href="#skala" data-i="nSkala"></a><a href="#bukan-alam" data-i="nSebab"></a><a href="#murah" data-i="nEkon"></a><a href="#hukum" data-i="nHukum"></a><a href="#solusi" data-i="nSolusi"></a><a href="#aksi" data-i="nAksi"></a>
@@ -419,7 +418,7 @@ const T={
 id:{
 htmlLang:'id',title:'Api yang Dipelihara — Akar Masalah Karhutla',
 desc:'Kebakaran hutan dan lahan bukan sekadar bencana alam. Pahami akar masalahnya lewat penjelasan interaktif.',
-menu:'Buka menu',menuClose:'Tutup menu',
+menu:'Buka menu',menuClose:'Tutup menu',langLabel:'ID',switchTo:'Ganti bahasa ke English',
 nSkala:'Skala',nSebab:'Penyebab',nEkon:'Ekonomi',nHukum:'Hukum',nSolusi:'Solusi',nAksi:'Aksi',
 heroEy:'Penjelajah interaktif · karhutla Indonesia',
 heroH:'Api itu <em>dipelihara</em>, bukan jatuh dari langit.',
@@ -546,7 +545,7 @@ cur:'id-ID',rpB:'miliar',rpT:'triliun',rpJ:'juta',dec:','
 en:{
 htmlLang:'en',title:'Fire, Kept Alive — The Root Causes of Indonesia\'s Forest Fires',
 desc:'Forest and land fires are not just natural disasters. Understand the root causes through an interactive explainer.',
-menu:'Open menu',menuClose:'Close menu',
+menu:'Open menu',menuClose:'Close menu',langLabel:'ENG',switchTo:'Switch language to Bahasa Indonesia',
 nSkala:'Scale',nSebab:'Causes',nEkon:'Money',nHukum:'Law',nSolusi:'Solutions',nAksi:'Act',
 heroEy:'Interactive explainer · Indonesia\'s forest fires',
 heroH:'Fire is <em>kept alive</em>, it doesn\'t fall from the sky.',
@@ -690,7 +689,7 @@ function render(){
   document.querySelector('meta[name="description"]').setAttribute('content',d.desc);
   $$('[data-i]').forEach(el=>{const v=d[el.dataset.i];if(typeof v==='string')el.innerHTML=v});
   $$('[data-ia]').forEach(el=>el.setAttribute('aria-label',d[el.dataset.ia]));
-  $$('[data-lang]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lang===lang));
+  const lb=$('#langBtn');lb.textContent=d.langLabel;lb.setAttribute('lang',lang);lb.setAttribute('aria-label',d.switchTo);
   $('#burger').setAttribute('aria-label',$('#mmenu').classList.contains('open')?d.menuClose:d.menu);
   $('#yrText').innerHTML=d['y'+yr];
   $('#chainTxt').innerHTML=chainKey?d[chainKey]:d.chain0;
@@ -700,7 +699,7 @@ function render(){
 }
 
 // language
-$$('[data-lang]').forEach(b=>b.onclick=()=>{lang=b.dataset.lang;store.lang=lang;save();render()});
+$('#langBtn').onclick=()=>{lang=lang==='id'?'en':'id';store.lang=lang;save();render()};
 
 // mobile menu
 const mm=$('#mmenu');

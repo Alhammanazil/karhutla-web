@@ -1,0 +1,792 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Api yang Dipelihara — Akar Masalah Karhutla</title>
+<meta name="description" content="Kebakaran hutan dan lahan bukan sekadar bencana alam. Pahami akar masalahnya lewat penjelasan interaktif.">
+<meta name="theme-color" content="#1a1411">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700;9..144,900&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1a1411; --ink2:#2b211b; --paper:#f4ecdf; --paper2:#eadfcb;
+  --ember:#ff5a1f; --flame:#ffb02e; --water:#3d8fb0; --leaf:#4f7a3a; --muted:#6e6054; --line:rgba(26,20,17,.15);
+  --serif:'Fraunces',Georgia,serif; --sans:'Instrument Sans',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;min-width:0}
+html{scroll-behavior:smooth;scroll-padding-top:64px;-webkit-text-size-adjust:100%}
+body{font-family:var(--sans);background:var(--paper);color:var(--ink);line-height:1.65;font-size:clamp(16px,1.2vw + 12px,18px);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+img,svg{max-width:100%}
+.wrap{max-width:1040px;margin:0 auto;padding:0 clamp(16px,4vw,28px)}
+h1,h2,h3{font-family:var(--serif);line-height:1.12;letter-spacing:-.02em;overflow-wrap:anywhere}
+h2{font-size:clamp(1.9rem,5.5vw,3.2rem);font-weight:900;margin-bottom:.45em}
+h3{font-size:clamp(1.15rem,2.4vw,1.4rem);font-weight:700}
+p,li{overflow-wrap:break-word}
+.eyebrow{font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:#c2410c;margin-bottom:.8rem;display:block}
+.lede{font-size:clamp(1.02rem,1.5vw + .6rem,1.18rem);max-width:64ch;color:var(--ink2)}
+section{padding:clamp(64px,10vw,104px) 0;position:relative}
+.dark{background:var(--ink);color:var(--paper)}
+.dark .lede{color:#e0d4c2}
+.dark .eyebrow{color:var(--flame)}
+.src{font-size:.8rem;color:var(--muted);margin-top:14px;line-height:1.55}
+.src a{text-decoration-color:rgba(0,0,0,.3);text-underline-offset:2px}
+.dark .src{color:#b6a796}
+button{font-family:inherit}
+:focus-visible{outline:3px solid var(--flame);outline-offset:2px}
+
+/* nav */
+nav{position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(26,20,17,.88);backdrop-filter:blur(10px);color:var(--paper);font-size:.88rem}
+.nav-in{display:flex;align-items:center;justify-content:space-between;gap:12px;height:56px;max-width:1040px;margin:0 auto;padding:0 clamp(12px,3vw,28px)}
+.left{display:flex;align-items:center;gap:12px}
+.lang{display:inline-flex;border:1.5px solid rgba(244,236,223,.35);border-radius:999px;padding:2px}
+.lang button{border:0;background:transparent;color:var(--paper);min-height:34px;min-width:44px;padding:0 12px;border-radius:999px;font-weight:600;font-size:.78rem;letter-spacing:.06em;cursor:pointer}
+.lang button[aria-pressed=true]{background:var(--flame);color:var(--ink)}
+.brand{display:flex;align-items:center;gap:8px;font-family:var(--serif);font-weight:700;text-decoration:none;font-size:1rem}
+.brand svg{width:26px;height:26px;flex:none}
+.links{display:flex;gap:20px;align-items:center}
+.links a{text-decoration:none;opacity:.82;padding:8px 0}
+.links a:hover{opacity:1;color:var(--flame)}
+.burger{display:none;background:none;border:0;color:var(--paper);width:44px;height:44px;cursor:pointer}
+.mmenu{display:none;background:rgba(26,20,17,.97);padding:6px clamp(16px,4vw,28px) 12px}
+.mmenu a{display:block;padding:13px 0;text-decoration:none;border-top:1px solid rgba(244,236,223,.1)}
+.mmenu.open{display:block}
+@media(max-width:860px){.links{display:none}.burger{display:grid;place-items:center}}
+@media(max-width:400px){.brand span{display:none}}
+.bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--flame),var(--ember));width:0;z-index:60}
+
+/* hero */
+.hero{min-height:100vh;min-height:100svh;display:flex;align-items:center;background:radial-gradient(120% 80% at 50% 110%,#7a2a0c 0%,#2b130a 45%,var(--ink) 80%);color:var(--paper);overflow:hidden;padding:110px 0 90px;position:relative}
+.hero canvas{position:absolute;inset:0;width:100%;height:100%}
+.hero .wrap{position:relative;z-index:2}
+.hero h1{font-size:clamp(2.5rem,10vw,6.2rem);font-weight:900;max-width:13ch}
+.hero h1 em{font-style:italic;color:var(--flame)}
+.hero p{max-width:54ch;margin:1.3rem 0 2rem;font-size:clamp(1.05rem,2vw + .5rem,1.25rem);color:#eadfcd}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:46px;background:var(--ember);color:#fff;padding:12px 26px;border-radius:999px;text-decoration:none;border:0;cursor:pointer;font-weight:600;font-size:1rem;transition:transform .15s,background .15s}
+.btn:hover{transform:translateY(-2px);background:#ff7a3f}
+.btn.ghost{background:transparent;border:1.5px solid currentColor;color:var(--ink)}
+.btn.ghost:hover{background:rgba(0,0,0,.06)}
+.scroll{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);font-size:.72rem;letter-spacing:.2em;opacity:.6;z-index:2}
+
+/* tldr */
+.tldr{background:var(--paper2);padding:clamp(40px,6vw,64px) 0}
+.tl3{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;margin-top:20px}
+.tl3 div{background:#fff8ec;border:1px solid var(--line);border-radius:16px;padding:20px}
+.tl3 b{font-family:var(--serif);font-size:1.15rem;display:block;margin-bottom:4px}
+.tl3 span{display:block;font-family:var(--serif);font-weight:900;font-size:2rem;color:var(--ember);line-height:1}
+
+.rv{opacity:0;transform:translateY(22px);transition:opacity .7s,transform .7s}
+.rv.in{opacity:1;transform:none}
+
+.big{font-family:var(--serif);font-weight:900;font-size:clamp(3rem,15vw,9rem);line-height:.95;color:var(--flame);overflow-wrap:anywhere}
+.big small{font-size:.28em}
+.compare{margin-top:30px;display:grid;gap:12px}
+.cmp-row{display:grid;grid-template-columns:minmax(78px,110px) 1fr;gap:12px;align-items:center;font-size:.9rem}
+.cmp-bar{min-height:36px;border-radius:6px;transition:width 1.4s cubic-bezier(.2,.8,.2,1);width:0;display:flex;align-items:center;padding:4px 10px;font-weight:600;font-size:.8rem;line-height:1.2;color:#fff;overflow:hidden}
+.cmp-bar.j{background:#7a6a5c}.cmp-bar.f{background:linear-gradient(90deg,var(--ember),var(--flame));color:var(--ink)}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.chip{border:1.5px solid rgba(244,236,223,.4);color:var(--paper);background:transparent;border-radius:999px;padding:0 16px;min-height:44px;cursor:pointer;font-size:.92rem;transition:.15s}
+.chip.on,.chip:hover{background:var(--flame);color:var(--ink);border-color:var(--flame)}
+.callout{margin-top:20px;padding:16px 20px;border-left:4px solid var(--ember);background:rgba(255,255,255,.07);border-radius:0 10px 10px 0;max-width:66ch;min-height:5.5em}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,44px);align-items:start;margin-top:36px}
+@media(max-width:820px){.grid2{grid-template-columns:1fr}}
+.card{background:#fff8ec;border:1px solid var(--line);border-radius:18px;padding:clamp(18px,3vw,26px);box-shadow:0 10px 30px -18px rgba(26,20,17,.4)}
+
+.peat-svg{width:100%;height:auto;border-radius:14px;display:block;background:#cfe6ef}
+.range{width:100%;accent-color:var(--water);margin:10px 0 4px;height:28px}
+.gauge{height:14px;border-radius:99px;background:linear-gradient(90deg,var(--leaf),var(--flame),var(--ember));position:relative;margin:8px 0}
+.gauge i{position:absolute;top:-5px;width:6px;height:24px;background:var(--ink);border-radius:3px;transition:left .3s;transform:translateX(-50%)}
+.row{display:flex;justify-content:space-between;font-size:.85rem;color:var(--muted)}
+.readout{font-family:var(--serif);font-size:1.5rem;font-weight:700}
+.btns{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+
+.field{display:flex;align-items:center;gap:10px;margin:12px 0;flex-wrap:wrap}
+.field input{font:inherit;padding:10px 12px;border-radius:10px;border:1.5px solid var(--line);width:150px;background:#fff;min-height:44px}
+.cost{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+.cost div{padding:14px;border-radius:14px;background:var(--paper2)}
+.cost small{display:block;color:var(--muted);font-size:.78rem;line-height:1.4}
+.cost b{font-family:var(--serif);font-size:clamp(1.15rem,3vw,1.5rem);overflow-wrap:anywhere}
+.cost .bad{background:#3a1a10;color:var(--paper)}.cost .bad small{color:#d6c3b0}.cost .bad b{color:var(--flame)}
+.cost .full{grid-column:1/-1}
+@media(max-width:420px){.cost{grid-template-columns:1fr}}
+
+.chain{display:flex;gap:10px;margin-top:22px;flex-wrap:wrap}
+.step{flex:1 1 150px;background:var(--paper2);border:2px solid transparent;border-radius:14px;padding:16px;text-align:left;cursor:pointer;color:inherit;transition:.15s}
+.step:hover,.step[aria-pressed=true]{border-color:var(--ink)}
+.step b{font-family:var(--serif);font-size:1.8rem;display:block}
+.step.last{background:var(--ember);color:#fff}.step.last:hover,.step.last[aria-pressed=true]{border-color:var(--ink)}
+.step small{font-size:.8rem;opacity:.85;display:block}
+
+.check{display:flex;gap:12px;align-items:flex-start;padding:14px;border:1.5px solid var(--line);border-radius:12px;margin-bottom:10px;cursor:pointer;background:#fff8ec;transition:.15s;width:100%;text-align:left;color:inherit;font-size:1rem}
+.check .bx{flex:none;width:26px;height:26px;border-radius:7px;border:2px solid var(--muted);display:grid;place-items:center;font-size:14px;color:#fff;margin-top:1px}
+.check[aria-pressed=true]{border-color:var(--leaf);background:#eef3e6}
+.check[aria-pressed=true] .bx{background:var(--leaf);border-color:var(--leaf)}
+.verdict{padding:16px 18px;border-radius:12px;font-weight:500;margin-top:6px}
+.verdict.no{background:#3a1a10;color:var(--paper)}.verdict.yes{background:#dfeacf}
+
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:24px 0 16px}
+.tab{padding:0 18px;min-height:44px;border-radius:999px;border:1.5px solid var(--paper);background:transparent;color:var(--paper);cursor:pointer;font-weight:600;font-size:.92rem}
+.tab[aria-selected=true]{background:var(--paper);color:var(--ink)}
+.panel{display:none;animation:fade .4s}.panel.on{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}}
+.panel ul{padding-left:1.2em;margin-top:10px}.panel li{margin-bottom:10px}
+
+.tl{border-left:2px solid rgba(244,236,223,.25);margin-top:30px;padding-left:26px}
+.tl div{position:relative;margin-bottom:26px}
+.tl div::before{content:"";position:absolute;left:-34px;top:7px;width:14px;height:14px;border-radius:50%;background:var(--ember);box-shadow:0 0 0 4px var(--ink)}
+.tl b{font-family:var(--serif);font-size:1.4rem;color:var(--flame)}
+
+.sol{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,270px),1fr));gap:16px;margin-top:30px}
+.acts{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:16px;margin-top:28px}
+.act{background:#fff8ec;border:1.5px solid var(--line);border-radius:16px;padding:22px;cursor:pointer;text-align:left;color:inherit;transition:.2s;font-size:1rem}
+.act:hover{transform:translateY(-3px)}
+.act .n{font-family:var(--serif);font-size:2.2rem;font-weight:900;color:var(--ember)}
+.act[aria-pressed=true]{background:var(--leaf);color:#fff;border-color:var(--leaf)}
+.act[aria-pressed=true] .n{color:var(--flame)}
+.act p{font-size:.92rem;margin-top:6px}
+.pl-msg{margin-top:20px;font-family:var(--serif);font-size:clamp(1.15rem,3vw,1.4rem);min-height:2.4em}
+
+details{border-top:1px solid var(--line);padding:14px 0}
+details:last-of-type{border-bottom:1px solid var(--line)}
+summary{cursor:pointer;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:12px;min-height:32px}
+summary::after{content:"+";font-size:1.4rem;line-height:1;color:var(--ember)}
+details[open] summary::after{content:"–"}
+summary::-webkit-details-marker{display:none}
+details p{margin-top:8px;color:var(--ink2)}
+
+footer{background:#0f0a08;color:#c4b5a3;padding:48px 0;font-size:.88rem}
+footer a{color:var(--flame)}
+footer ul{list-style:none;padding:0;margin:10px 0 18px}
+footer li{margin-bottom:8px}
+.tag{display:inline-block;font-size:.68rem;padding:1px 8px;border-radius:99px;background:rgba(255,176,46,.18);color:var(--flame);margin-right:8px;white-space:nowrap}
+@media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}.cmp-bar{transition:none}html{scroll-behavior:auto}.panel{animation:none}}
+</style>
+</head>
+<body>
+<div class="bar" id="bar"></div>
+<nav aria-label="Navigasi utama">
+  <div class="nav-in">
+    <div class="left">
+      <div class="lang" role="group" aria-label="Bahasa / Language">
+        <button type="button" data-lang="id" aria-pressed="true" lang="id">ID</button>
+        <button type="button" data-lang="en" aria-pressed="false" lang="en">ENG</button>
+      </div>
+      <a class="brand" href="#top">
+        <svg viewBox="0 0 64 64" aria-hidden="true"><path fill="#ff7a1f" d="M33 7c1.5 9.500 12 15.500 12 29.500C45 48 39.500 56 32 56s-13-7.500-13-16.500c0-7 3.500-10.500 6.500-16 .8 5 3.200 7.500 5.700 8.200C29.500 24 28.500 15 33 7Z"/><path fill="#ffd36b" d="M32 56c-5 0-8.500-4-8.500-9 0-5.500 5-7.500 7-13.500 3.500 4 10 7.500 10 13.500 0 5-3.500 9-8.500 9Z"/></svg>
+        <span>Api yang Dipelihara</span>
+      </a>
+    </div>
+    <div class="links">
+      <a href="#skala" data-i="nSkala"></a><a href="#bukan-alam" data-i="nSebab"></a><a href="#murah" data-i="nEkon"></a><a href="#hukum" data-i="nHukum"></a><a href="#solusi" data-i="nSolusi"></a><a href="#aksi" data-i="nAksi"></a>
+    </div>
+    <button class="burger" id="burger" type="button" aria-expanded="false" aria-controls="mmenu" data-ia="menu">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path id="bpath" d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+  </div>
+  <div class="mmenu" id="mmenu">
+    <a href="#skala" data-i="nSkala"></a><a href="#bukan-alam" data-i="nSebab"></a><a href="#murah" data-i="nEkon"></a><a href="#hukum" data-i="nHukum"></a><a href="#solusi" data-i="nSolusi"></a><a href="#aksi" data-i="nAksi"></a>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <canvas id="embers" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <span class="eyebrow" style="color:var(--flame)" data-i="heroEy"></span>
+    <h1 data-i="heroH"></h1>
+    <p data-i="heroP"></p>
+    <a class="btn" href="#skala" data-i="heroBtn"></a>
+  </div>
+  <div class="scroll" data-i="scroll"></div>
+</header>
+
+<div class="tldr">
+  <div class="wrap">
+    <h3 data-i="tlTitle"></h3>
+    <div class="tl3">
+      <div><span>1</span><b data-i="tl1h"></b><p data-i="tl1p"></p></div>
+      <div><span>2</span><b data-i="tl2h"></b><p data-i="tl2p"></p></div>
+      <div><span>3</span><b data-i="tl3h"></b><p data-i="tl3p"></p></div>
+    </div>
+  </div>
+</div>
+
+<section id="skala" class="dark">
+  <div class="wrap">
+    <span class="eyebrow rv" data-i="s1ey"></span>
+    <h2 class="rv" data-i="s1h"></h2>
+    <div class="big rv"><span id="count" data-to="202011">0</span> <small data-i="unitHa"></small></div>
+    <p class="lede rv" style="margin-top:14px" data-i="s1p"></p>
+    <div class="compare" id="compare">
+      <div class="cmp-row"><span data-i="cmpJ"></span><div class="cmp-bar j" data-w="33" data-i="cmpJb"></div></div>
+      <div class="cmp-row"><span data-i="cmpF"></span><div class="cmp-bar f" data-w="100" data-i="cmpFb"></div></div>
+    </div>
+    <p class="src" data-i="s1src"></p>
+
+    <h3 style="margin-top:52px" class="rv" data-i="yrH"></h3>
+    <p class="lede" style="font-size:1rem" data-i="yrP"></p>
+    <div class="chips" id="yrChips" role="group" data-ia="yrAria">
+      <button type="button" class="chip" data-k="2015">2015</button>
+      <button type="button" class="chip" data-k="2023">2023</button>
+      <button type="button" class="chip" data-k="2024">2024</button>
+      <button type="button" class="chip on" data-k="2026">2026</button>
+    </div>
+    <div class="callout" id="yrText" aria-live="polite"></div>
+    <p class="src" data-i="yrSrc"></p>
+  </div>
+</section>
+
+<section id="bukan-alam">
+  <div class="wrap">
+    <span class="eyebrow rv" data-i="s2ey"></span>
+    <h2 class="rv" data-i="s2h"></h2>
+    <p class="lede rv" data-i="s2p"></p>
+
+    <div class="grid2">
+      <div class="card rv">
+        <h3 data-i="expH"></h3>
+        <p style="font-size:.95rem;color:var(--muted);margin:6px 0 12px" data-i="expP"></p>
+        <svg class="peat-svg" id="peat" viewBox="0 0 400 240" role="img" data-ia="peatAria">
+          <rect width="400" height="240" fill="#cfe6ef"/>
+          <rect y="70" width="400" height="170" id="peatBody" fill="#3a2a1f"/>
+          <rect id="water" x="0" y="100" width="400" height="140" fill="#3d8fb0" opacity=".55"/>
+          <rect id="canal" x="170" y="70" width="60" height="150" fill="#3d8fb0" opacity=".9"/>
+          <g id="trees" fill="#4f7a3a"><circle cx="40" cy="55" r="20"/><circle cx="90" cy="50" r="22"/><circle cx="310" cy="52" r="21"/><circle cx="360" cy="56" r="19"/><rect x="38" y="62" width="4" height="12" fill="#3a2a1c"/><rect x="88" y="62" width="4" height="12" fill="#3a2a1c"/><rect x="308" y="62" width="4" height="12" fill="#3a2a1c"/><rect x="358" y="62" width="4" height="12" fill="#3a2a1c"/></g>
+          <g id="fire" opacity="0"></g>
+          <line x1="0" y1="70" x2="400" y2="70" stroke="#1a1411" stroke-dasharray="4 3" stroke-width=".8"/>
+          <text x="8" y="16" font-size="11" fill="#1a1411" font-family="sans-serif" data-i="svgSurf"></text>
+          <line x1="0" y1="118" x2="400" y2="118" stroke="#fff" stroke-dasharray="2 4" stroke-width="1" opacity=".8"/>
+          <text x="392" y="113" font-size="9" fill="#fff" font-family="sans-serif" text-anchor="end" data-i="svgLimit"></text>
+        </svg>
+        <label for="drain" style="font-weight:600;display:block;margin-top:14px"><span data-i="lblDepth"></span> <span class="readout" id="wt">10 cm</span></label>
+        <input class="range" id="drain" type="range" min="0" max="120" value="10">
+        <div class="row"><span data-i="lblWet"></span><span data-i="lblDry"></span></div>
+        <div style="margin:14px 0 4px;font-size:.85rem;font-weight:600" data-i="lblFlam"></div>
+        <div class="gauge"><i id="gp" style="left:8%"></i></div>
+        <div class="btns">
+          <button type="button" class="btn" id="spark" data-i="spark"></button>
+          <button type="button" class="btn ghost" id="reset" data-i="reset"></button>
+        </div>
+        <p id="peatMsg" style="margin-top:14px;min-height:5em" aria-live="polite"></p>
+      </div>
+
+      <div>
+        <h3 class="rv" data-i="pdH"></h3>
+        <p class="rv" style="margin-top:10px" data-i="pd1"></p>
+        <p class="rv" style="margin-top:12px" data-i="pd2"></p>
+        <p class="rv" style="margin-top:12px" data-i="pd3"></p>
+        <p class="src" data-i="pdSrc"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="adat" style="background:var(--paper2)">
+  <div class="wrap">
+    <span class="eyebrow rv" data-i="s3ey"></span>
+    <h2 class="rv" data-i="s3h"></h2>
+    <p class="lede rv" data-i="s3p1"></p>
+    <p class="lede rv" style="margin-top:12px" data-i="s3p2"></p>
+    <div class="grid2">
+      <div>
+        <button type="button" class="check" aria-pressed="false"><span class="bx"></span><span data-i="c1"></span></button>
+        <button type="button" class="check" aria-pressed="false"><span class="bx"></span><span data-i="c2"></span></button>
+        <button type="button" class="check" aria-pressed="false"><span class="bx"></span><span data-i="c3"></span></button>
+        <div class="verdict no" id="verdict" aria-live="polite"></div>
+      </div>
+      <div class="card">
+        <h3 data-i="cmpH"></h3>
+        <p style="margin-top:10px" data-i="cmp1"></p>
+        <p style="margin-top:10px" data-i="cmp2"></p>
+        <p class="src" data-i="s3src"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="murah">
+  <div class="wrap">
+    <span class="eyebrow rv" data-i="s4ey"></span>
+    <h2 class="rv" data-i="s4h"></h2>
+    <p class="lede rv" data-i="s4p"></p>
+
+    <div class="grid2">
+      <div class="card rv">
+        <h3 data-i="calcH"></h3>
+        <div class="field"><label for="ha" data-i="calcL"></label><input id="ha" type="number" inputmode="numeric" min="1" value="1000"></div>
+        <div class="cost">
+          <div class="bad"><small data-i="cFireL"></small><b id="cFire">–</b></div>
+          <div><small data-i="cMachL"></small><b id="cMach">–</b></div>
+          <div class="full"><small data-i="cSaveL"></small><b id="cSave">–</b></div>
+          <div class="full bad"><small data-i="cFineL"></small><b id="cFine">–</b></div>
+        </div>
+        <p class="src" data-i="calcSrc"></p>
+      </div>
+      <div>
+        <h3 class="rv" data-i="payH"></h3>
+        <ul style="padding-left:1.2em;margin-top:12px" class="rv">
+          <li style="margin-bottom:10px" data-i="pay1"></li>
+          <li style="margin-bottom:10px" data-i="pay2"></li>
+          <li style="margin-bottom:10px" data-i="pay3"></li>
+        </ul>
+        <p class="rv" style="margin-top:10px" data-i="pay4"></p>
+        <p class="src" data-i="paySrc"></p>
+      </div>
+    </div>
+
+    <h3 style="margin-top:56px" class="rv" data-i="flipH"></h3>
+    <p class="lede" style="font-size:1rem" data-i="flipP"></p>
+    <div class="chain" id="chain">
+      <button type="button" class="step" aria-pressed="false" data-s="chain1"><small data-i="st1"></small><b>113</b><small data-i="st1b"></small></button>
+      <button type="button" class="step" aria-pressed="false" data-s="chain2"><small data-i="st2"></small><b>655</b><small data-i="st2b"></small></button>
+      <button type="button" class="step last" aria-pressed="false" data-s="chain3"><small data-i="st3"></small><b>3.070</b><small data-i="st3b"></small></button>
+    </div>
+    <div class="callout" id="chainTxt" style="background:var(--paper2);margin-top:16px;min-height:4em" aria-live="polite" data-i="chain0"></div>
+    <p class="src" data-i="flipSrc"></p>
+  </div>
+</section>
+
+<section id="hukum" class="dark">
+  <div class="wrap">
+    <span class="eyebrow rv" data-i="s5ey"></span>
+    <h2 class="rv" data-i="s5h"></h2>
+    <p class="lede rv" data-i="s5p"></p>
+    <div class="tabs" role="tablist" id="tabs">
+      <button type="button" class="tab" role="tab" aria-selected="true" data-p="p1" data-i="tab1"></button>
+      <button type="button" class="tab" role="tab" aria-selected="false" data-p="p2" data-i="tab2"></button>
+      <button type="button" class="tab" role="tab" aria-selected="false" data-p="p3" data-i="tab3"></button>
+    </div>
+    <div class="panel on" id="p1" data-i="p1"></div>
+    <div class="panel" id="p2" data-i="p2"></div>
+    <div class="panel" id="p3" data-i="p3"></div>
+    <p class="src" data-i="s5src"></p>
+
+    <h3 style="margin-top:60px" class="rv" data-i="tlH"></h3>
+    <div class="tl">
+      <div class="rv" data-i="t1"></div><div class="rv" data-i="t2"></div><div class="rv" data-i="t3"></div>
+      <div class="rv" data-i="t4"></div><div class="rv" data-i="t5"></div><div class="rv" data-i="t6"></div>
+    </div>
+  </div>
+</section>
+
+<section id="solusi">
+  <div class="wrap">
+    <span class="eyebrow rv" data-i="s6ey"></span>
+    <h2 class="rv" data-i="s6h"></h2>
+    <p class="lede rv" data-i="s6p"></p>
+    <div class="sol">
+      <div class="card rv" data-i="so1"></div><div class="card rv" data-i="so2"></div><div class="card rv" data-i="so3"></div>
+      <div class="card rv" data-i="so4"></div><div class="card rv" data-i="so5"></div><div class="card rv" data-i="so6"></div>
+    </div>
+    <p class="src" data-i="s6src"></p>
+  </div>
+</section>
+
+<section id="aksi" style="background:var(--paper2)">
+  <div class="wrap">
+    <span class="eyebrow rv" data-i="s7ey"></span>
+    <h2 class="rv" data-i="s7h"></h2>
+    <p class="lede rv" data-i="s7p"></p>
+    <div class="acts" id="acts">
+      <button type="button" class="act" aria-pressed="false" data-id="a1"><div class="n">1</div><div data-i="a1"></div></button>
+      <button type="button" class="act" aria-pressed="false" data-id="a2"><div class="n">2</div><div data-i="a2"></div></button>
+      <button type="button" class="act" aria-pressed="false" data-id="a3"><div class="n">3</div><div data-i="a3"></div></button>
+    </div>
+    <div class="pl-msg" id="plMsg" aria-live="polite"></div>
+    <div style="margin-top:12px;display:flex;align-items:center;gap:12px;flex-wrap:wrap"><button type="button" class="btn ghost" id="share" data-i="share"></button><span id="shareMsg" style="font-size:.88rem"></span></div>
+
+    <h3 style="margin-top:60px" data-i="glH"></h3>
+    <div style="margin-top:14px" id="gloss"></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <b style="color:var(--paper);font-family:var(--serif);font-size:1.2rem">Api yang Dipelihara</b>
+    <p style="margin-top:8px;max-width:72ch" data-i="fAbout"></p>
+    <p style="margin-top:16px;color:var(--paper)" data-i="fSrcH"></p>
+    <ul data-i="fList"></ul>
+    <p style="max-width:72ch" data-i="fNote"></p>
+  </div>
+</footer>
+
+<script>
+(()=>{
+const T={
+id:{
+htmlLang:'id',title:'Api yang Dipelihara — Akar Masalah Karhutla',
+desc:'Kebakaran hutan dan lahan bukan sekadar bencana alam. Pahami akar masalahnya lewat penjelasan interaktif.',
+menu:'Buka menu',menuClose:'Tutup menu',
+nSkala:'Skala',nSebab:'Penyebab',nEkon:'Ekonomi',nHukum:'Hukum',nSolusi:'Solusi',nAksi:'Aksi',
+heroEy:'Penjelajah interaktif · karhutla Indonesia',
+heroH:'Api itu <em>dipelihara</em>, bukan jatuh dari langit.',
+heroP:'Setiap tahun kita marah, membagikan berita, lalu lupa. Padahal kebakaran hutan dan lahan (karhutla) bisa diprediksi, karena risikonya diciptakan manusia. Yuk telusuri akarnya, bukan hanya asapnya.',
+heroBtn:'Mulai menelusuri ↓',scroll:'GULIR',
+tlTitle:'Ringkasan 30 detik',
+tl1h:'Banyak yang sengaja dibakar',tl1p:'Membakar lahan itu murah. Biayanya sekitar Rp50–90 ribu per hektare, sedangkan alat berat Rp5–15 juta.',
+tl2h:'Gambut yang dikeringkan mudah menyala',tl2p:'Gambut basah sulit terbakar. Setelah dikeringkan lewat kanal, ia menjadi bahan bakar yang bisa membara berbulan-bulan.',
+tl3h:'Hukumnya ada, penegakannya lemah',tl3p:'Larangan membakar sudah ada sejak 2009. Tapi izin yang tumpang tindih dan pengawasan yang lemah membuat api terus berulang.',
+s1ey:'01 · Skala',s1h:'Seberapa besar yang terbakar?',unitHa:'hektare',
+s1p:'Menurut data SiPongi Kementerian Kehutanan, sekitar 202.000 hektare hutan dan lahan terbakar pada Januari–Agustus 2026. Angka ini terus bergerak, jadi cek data terbaru di SiPongi.',
+cmpJ:'Luas Jakarta',cmpJb:'≈ 66.000 ha',cmpF:'Area terbakar',cmpFb:'202.000 ha ≈ 3× Jakarta',
+s1src:'Luas Jakarta (±661 km²) adalah perkiraan kasar. Sumber angka 2026: <a href="https://data.goodstats.id/statistic/kalimantan-barat-jadi-provinsi-dengan-karhutla-terluas-capai-38-ribu-ha-7ocLY" target="_blank" rel="noopener">GoodStats</a> (mengutip SiPongi) dan <a href="https://sipongi.menlhk.go.id" target="_blank" rel="noopener">SiPongi</a>.',
+yrH:'Dari tahun ke tahun',yrP:'Pilih tahun untuk melihat gambaran besarnya.',yrAria:'Pilih tahun',
+y2015:'Lebih dari 2,6 juta hektare terbakar, sekitar 891.000 hektare di antaranya gambut. Pemerintah mengumumkan kerugian sekitar Rp221 triliun. Studi Harvard–Columbia memperkirakan asapnya menyebabkan sekitar 100.300 kematian dini di Indonesia, Malaysia, dan Singapura (sekitar 91.600 di Indonesia).',
+y2023:'Sekitar 1,16 juta hektare terbakar menurut KLHK, termasuk 182.789 hektare gambut. Analisis Greenpeace menyebut angkanya setidaknya 2,13 juta hektare. Perbedaan metode menghasilkan angka yang berbeda.',
+y2024:'Sekitar 283.620 hektare terbakar sampai September 2024 (data SiPongi). Wilayah terluas: Nusa Tenggara Timur (±93.572 ha), Nusa Tenggara Barat (±34.430 ha), dan Jawa Timur (±18.823 ha). Jadi karhutla bukan hanya masalah Sumatra dan Kalimantan.',
+y2026:'Sekitar 202.011 hektare terbakar sepanjang 2026 menurut SiPongi. Provinsi terluas: Kalimantan Barat dengan sekitar 38.311 hektare.',
+yrSrc:'Sumber: <a href="https://mongabay.co.id/2019/10/21/problema-tata-kelola-gambut/amp/" target="_blank" rel="noopener">Mongabay</a> (2015), <a href="https://www.thejakartapost.com/news/2016/09/20/haze-caused-thousands-deaths-ri-2015-study" target="_blank" rel="noopener">The Jakarta Post</a> (studi Harvard–Columbia), <a href="https://www.greenpeace.org/indonesia/laporan/59567/karhutla-kronis/" target="_blank" rel="noopener">Greenpeace Indonesia</a> (2023), <a href="https://goodstats.id/article/provinsi-dengan-luas-kebakaran-hutan-terbesar-2024-jliXO" target="_blank" rel="noopener">GoodStats</a> (2024).',
+s2ey:'02 · Penyebab',s2h:'Bencana alam? Bukan.',
+s2p:'El Niño memang membawa musim kering yang datang beberapa tahun sekali, dan makin kuat karena perubahan iklim. Tapi itu hanya <b>pemicu kondisi</b>. Yang membuat lahan mudah terbakar dan sulit dipadamkan adalah keputusan manusia: membuka lahan tanpa batas, mengeringkan gambut, memberi izin sembarangan, dan lemahnya pengawasan.',
+expH:'Eksperimen gambut',expP:'Geser slider untuk menggali kanal pengering. Lalu nyalakan percikan.',
+peatAria:'Penampang lahan gambut dengan kanal dan muka air',svgSurf:'permukaan tanah',svgLimit:'batas aman 40 cm',
+lblDepth:'Muka air turun:',lblWet:'masih basah',lblDry:'dikeringkan kanal',lblFlam:'Tingkat mudah terbakar',
+spark:'🔥 Nyalakan percikan',reset:'Atur ulang',
+peatInit:'Gambut basah menyimpan air seperti spons. Coba nyalakan percikan.',
+pOK:'Percikan cepat padam. Muka air turun {d} cm, masih dalam batas aman, jadi gambut tetap basah dan sulit terbakar.',
+pMid:'Muka air turun {d} cm, melewati batas 40 cm. Lapisan atas gambut mengering dan api mulai menjalar. Coba geser lebih dalam.',
+pHigh:'Gambut kering sampai jauh ke dalam. Api menjalar luas, merambat di bawah tanah, sangat sulit dipadamkan, dan melepas banyak karbon serta asap.',
+pdH:'Mengapa gambut jadi jebakan',
+pd1:'Gambut adalah timbunan sisa tumbuhan yang selalu basah. Selama basah, ia hampir tidak bisa terbakar. Ketika dikeringkan dengan kanal untuk kebun, ia berubah menjadi bahan bakar. Api bisa merambat di bawah tanah dan membara berbulan-bulan.',
+pd2:'Peraturan pemerintah (PP 57/2016, perubahan atas PP 71/2014) menyatakan gambut berfungsi budidaya rusak jika muka airnya lebih dari 40 cm di bawah permukaan.',
+pd3:'Greenpeace menemukan sekitar 53 km kanal baru yang digali di gambut pada konsesi bubur kertas agar lahan kering, dan lahan kering itu bisa terbakar berbulan-bulan. Temuan ini berasal dari LSM.',
+pdSrc:'Simulasi ini penyederhanaan untuk edukasi, bukan model ilmiah. Sumber: <a href="https://mongabay.co.id/2016/12/15/catatan-hukum-peraturan-gambut-lama-vs-baru/amp/" target="_blank" rel="noopener">Mongabay: PP gambut lama vs baru</a>, <a href="https://www.greenpeace.org/indonesia/siaran-pers/5406/greenpeace-menemukan-perusakan-lahan-gambut-dan-memicu-kebakaran-hutan-oleh-asia-pulp-and-paper/" target="_blank" rel="noopener">Greenpeace</a>.',
+s3ey:'03 · Api dan kearifan lokal',s3h:'Membakar itu selalu salah?',
+s3p1:'Masyarakat di Nusantara memakai api untuk mengelola lahan selama ribuan tahun. Di Kalimantan, bukti ekologis menunjukkan pembakaran lahan oleh manusia setidaknya 2.500 tahun. Komunitas seperti Dayak, Baduy, dan Kasepuhan punya sistem bakar terkendali dengan sekat bakar, pengawasan bersama, dan sanksi adat.',
+s3p2:'UU 32/2009 melarang membuka lahan dengan membakar, kecuali dengan memperhatikan kearifan lokal. Centang tiga syarat di bawah untuk melihat apakah sebuah pembakaran lolos.',
+c1:'<b>Maksimal 2 hektare</b> per kepala keluarga',c2:'<b>Hanya untuk tanaman varietas lokal</b> (bukan komoditas industri)',c3:'<b>Dikelilingi sekat bakar</b> agar api tidak menjalar',
+v0:'Belum memenuhi syarat apa pun. Pembakaran seperti ini dilarang.',
+vN:'Baru {n} dari 3 syarat. Selama belum lengkap, pembakaran tetap melanggar.',
+v3:'Memenuhi ketiga syarat, masuk kategori pengecualian kearifan lokal. Contoh: ladang bergilir skala keluarga dengan sekat bakar.',
+cmpH:'Bandingkan dengan perusahaan sawit',
+cmp1:'Pembakaran oleh pemegang konsesi sawit tidak mungkin hanya 2 hektare. Sawit berasal dari Afrika, bukan varietas lokal. Dan sering dilakukan di gambut yang sudah dikeringkan, sehingga api mudah menjalar.',
+cmp2:'Laporan <i>Trial by Fire</i> (Barber &amp; Schweithelm, WRI bersama WWF-Indonesia dan Telapak, sekitar tahun 2000) sudah menyebut perusahaan perkebunan sebagai pembakar utama. Lebih dari 20 tahun kemudian polanya masih mirip: menurut laporan Kompas yang dikutip video, lebih dari 50% titik panas di Kalimantan ada di area konsesi.',
+s3src:'Sumber: syarat 2 hektare, varietas lokal, dan sekat bakar dari penjelasan UU 32/2009 Pasal 69 (<a href="https://www.cnnindonesia.com/nasional/20151104170831-20-89487/masyarakat-adat-tidak-asal-bakar-hutan/" target="_blank" rel="noopener">CNN Indonesia</a>); <a href="https://library.alnap.org/system/files/content/resource/files/main/trialbyfire.pdf" target="_blank" rel="noopener">Trial by Fire</a>. Ketentuan ini sempat dibahas dalam perubahan lewat UU Cipta Kerja, jadi cek naskah terbaru.',
+s4ey:'04 · Ekonomi',s4h:'Murah yang palsu',
+s4p:'Membuka lahan dengan api hanya Rp50.000–90.000 per hektare. Dengan alat berat bisa Rp5–15 juta per hektare. Wajar kalau banyak yang memilih api. Masalahnya, biaya sebenarnya ditanggung orang lain: kesehatan warga, sekolah libur, wisata sepi, dan emisi karbon. Ekonom menyebutnya <b>eksternalitas negatif</b>, yaitu biaya yang dibebankan ke pihak yang tidak ikut untung.',
+calcH:'Kalkulator biaya buka lahan',calcL:'Luas lahan (hektare)',
+cFireL:'Dengan membakar (perkiraan tengah Rp70 ribu/ha)',cMachL:'Dengan alat berat (perkiraan tengah Rp10 juta/ha)',
+cSaveL:'Selisih yang "dihemat" pembakar',cFineL:'Potensi kerugian jika terbukti membakar, menurut hitungan GAPKI (Rp1,8 miliar/ha)',
+calcSrc:'Rentang biaya dan angka GAPKI dikutip dari video sumber, belum diverifikasi independen. Angka tengah dipakai agar mudah dihitung. Denda hanya bermakna bila ditegakkan.',
+payH:'Siapa yang menanggung tagihannya?',
+pay1:'<b>Kesehatan:</b> video mengutip lebih dari 72.000 kasus infeksi saluran pernapasan (ISPA) menurut koalisi ISPA, sampai minggu ketiga Agustus.',
+pay2:'<b>Nyawa:</b> studi Harvard–Columbia memperkirakan asap kebakaran 2015 menyebabkan sekitar 100.300 kematian dini di tiga negara. Pemerintah mencatat angka resmi yang jauh lebih kecil.',
+pay3:'<b>Ekonomi:</b> kebakaran 2015 ditaksir merugikan sekitar Rp221 triliun menurut pemerintah.',
+pay4:'Sementara yang membakar mendapat keuntungannya.',
+paySrc:'Sumber: video sumber; <a href="https://www.thejakartapost.com/news/2016/09/20/haze-caused-thousands-deaths-ri-2015-study" target="_blank" rel="noopener">The Jakarta Post</a>; <a href="https://mongabay.co.id/2019/10/21/problema-tata-kelola-gambut/amp/" target="_blank" rel="noopener">Mongabay</a>.',
+flipH:'Mesin spekulasi lahan',flipP:'Contoh skema yang digambarkan di video untuk hutan bekas pembalakan liar. Klik tiap tahap.',
+st1:'Tahap 1',st1b:'per hektare · dibeli',st2:'Tahap 2',st2b:'per hektare · dijual ulang',st3:'Tahap 3',st3b:'per hektare · naik 27× dalam 3 tahun',
+chain0:'Klik tahap untuk melihat apa yang terjadi.',
+chain1:'Lahan bekas pembalakan liar dibeli dengan harga murah.',
+chain2:'Lahan dibuka dan "dirapikan" di atas kertas: sertifikat dan surat ganti rugi diurus agar tampak sah, lalu dijual lagi.',
+chain3:'Lahan dibakar supaya siap tanam cepat dan murah, lalu ditanami sawit. Dalam 3 tahun nilainya naik 27 kali lipat.',
+flipSrc:'Angka dari video sumber. Satuan mata uangnya tidak disebut jelas, jadi dibaca sebagai indeks nilai per hektare.',
+s5ey:'05 · Hukum dan tata kelola',s5h:'Mengapa api tak pernah benar-benar padam?',s5p:'Ada aturan, ada sanksi. Tapi ada celah. Pilih salah satu akar masalah.',
+tab1:'Penegakan hukum',tab2:'Status lahan & izin',tab3:'Politik & ekonomi',
+p1:`<h3>Pertanggungjawaban yang kabur</h3><ul>
+<li><b>Tanggung jawab mutlak</b> (<i>strict liability</i>, UU 32/2009 Pasal 88): pemilik konsesi bertanggung jawab atas kerusakan tanpa perlu dibuktikan siapa yang menyulut. Menurut video, sejak UU Cipta Kerja frasa "tanpa perlu pembuktian unsur kesalahan" dihapus dari batang tubuh dan hanya tersisa di penjelasan, sehingga asas ini jadi ambigu.</li>
+<li><b>Empat jalur sanksi:</b> administratif (segel, denda, cabut izin), pidana (korporasi dan pengurus), perdata (ganti rugi dan pemulihan), serta gugatan warga ke PTUN atas kelalaian pemerintah.</li>
+<li>Dalam praktik, pidana masih lebih sering menyasar <b>orang di lapangan</b> ketimbang perusahaannya.</li>
+<li>Di Direktori Putusan Mahkamah Agung, kata kunci "kebakaran hutan" sejak 2007 hanya menghasilkan sekitar 1.400 putusan. Tidak ada statistik nasional yang menghubungkan kejadian, proses hukum, dan denda yang benar-benar dibayar (menurut video).</li></ul>`,
+p2:`<h3>Peta yang tumpang tindih</h3><ul>
+<li>Di Indonesia, <b>kawasan hutan adalah status hukum</b>, bukan kondisi fisik. Wilayah berstatus kawasan hutan bisa saja sudah berisi desa, kebun, dan tanah adat.</li>
+<li>Akarnya dari era kolonial dan diperkuat di Orde Baru: tanah yang tak terbukti milik pribadi dianggap dikuasai negara. Batas dan hak warga sering belum diselesaikan.</li>
+<li>Mahkamah Konstitusi menegaskan bahwa garis di peta saja tidak cukup, dan hutan adat bukan hutan negara. Klaim yang tumpang tindih tetap memicu konflik.</li>
+<li>Izin sawit lahir dari rangkaian keputusan banyak lembaga. Sejak UU Cipta Kerja, prosesnya bergeser ke sistem perizinan daring berbasis risiko (OSS). Di tiap pintu ada risiko izin tumpang tindih dan konflik lahan.</li>
+<li>Api tidak mengenal batas peta, sehingga mudah menjalar jauh dan sulit dikaitkan dengan satu perusahaan.</li></ul>`,
+p3:`<h3>Insentif yang timpang</h3><ul>
+<li>Industri sawit mencatat rekor sekitar 40 miliar dolar AS tahun lalu dan menyumbang sekitar 3,5% PDB, menurut video. Makin besar nilai ekonominya, makin besar godaan untuk tidak menegakkan aturan.</li>
+<li>Pemerintah dan industri terhubung erat, baik lewat kepemilikan konsesi maupun pendanaan kampanye (menurut video).</li>
+<li>Pengawasan terbatas sumber daya, dan kolusi antara perusahaan dan pejabat lokal kerap terjadi.</li>
+<li>Proyek strategis nasional juga berisiko: menurut data yang dikutip video, 154 titik asap berada di lokasi proyek strategis nasional, di tengah target food estate 3 juta hektare.</li></ul>`,
+s5src:'Sebagian besar poin di bagian ini dikutip dari <a href="https://www.youtube.com/watch?v=aks6P_onYqo" target="_blank" rel="noopener">video sumber</a> (riset Formis.id) dan belum diverifikasi independen. Rujuk naskah UU dan putusan resmi sebelum dikutip.',
+tlH:'Garis waktu',
+t1:'<b>±2.500 tahun lalu</b><br>Bukti pembakaran lahan terkendali di Kalimantan.',
+t2:'<b>±2000</b><br>Laporan <i>Trial by Fire</i> menyebut perusahaan perkebunan sebagai pembakar utama.',
+t3:'<b>2009</b><br>UU 32/2009 melarang membuka lahan dengan membakar, dengan pengecualian kearifan lokal.',
+t4:'<b>2015</b><br>Kebakaran besar: lebih dari 2,6 juta hektare terbakar.',
+t5:'<b>Era UU Cipta Kerja</b><br>Tanggung jawab mutlak jadi ambigu; perizinan bergeser ke sistem OSS berbasis risiko.',
+t6:'<b>2026</b><br>Sekitar 202.000 hektare terbakar sampai Agustus.',
+s6ey:'06 · Jalan keluar',s6h:'Apa yang harus dibenahi?',
+s6p:'Menurut laporan <i>Trial by Fire</i> dan rekomendasi tim peneliti video, ada tiga hal besar: <b>insentif ekonomi</b>, <b>tata kelola hutan dan lahan</b>, dan <b>penegakan hukum</b>. Ini wujud konkretnya.',
+so1:'<h3>🌊 Basahi lagi gambut</h3><p style="margin-top:8px">Prioritas utama: pulihkan muka air. Tutup atau kelola kanal, basahi kembali lahannya, dan pilih tanaman yang cocok dengan gambut, bukan memaksa gambut menyesuaikan sawit.</p>',
+so2:'<h3>🔍 Awasi yang sudah berizin</h3><p style="margin-top:8px">Bukan sekadar cek dokumen: apakah kanal menguras gambut, alat pemadam berfungsi, dan apakah api terus berulang di konsesi yang sama?</p>',
+so3:'<h3>🗺️ Transparansi &amp; Satu Peta</h3><p style="margin-top:8px">Buka data pemilik, batas, izin, dan keberadaan desa atau wilayah adat. Selesaikan tumpang tindih klaim dan banyaknya versi peta.</p>',
+so4:'<h3>🏛️ Kuatkan daerah</h3><p style="margin-top:8px">Alokasikan dana dan kapasitas untuk pemerintah kabupaten dan provinsi agar mampu merencanakan tata ruang, mengawasi, dan melindungi warga.</p>',
+so5:'<h3>🌱 Ekonomi yang tak membakar</h3><p style="margin-top:8px">Agroforestri, hasil hutan bukan kayu (kopi, pala, madu, bambu), wisata berbasis komunitas, dan pembayaran jasa lingkungan. Studi Ferraro &amp; Simorangkir (Science Advances, 2020) menemukan bantuan sosial PKH menurunkan hilangnya hutan rata-rata 30% di desa penerima.</p>',
+so6:'<h3>🛡️ Cegah sepanjang tahun</h3><p style="margin-top:8px">Patroli di area rawan, pemantauan bersama warga, buka lahan tanpa bakar, dan respons cepat dengan komando jelas. Bukan menyewa helikopter setelah api membesar.</p>',
+s6src:'Sumber studi PKH: <a href="https://news.mongabay.com/2020/08/indonesia-welfare-program-poverty-alleviation-pkh-deforestation-study/" target="_blank" rel="noopener">Mongabay</a>. Rekomendasi lain dari video sumber.',
+s7ey:'07 · Bagian kamu',s7h:'Apa yang bisa kita lakukan?',s7p:'Warga biasa bukan penonton. Tandai komitmen yang siap kamu ambil.',
+a1:'<h3>Tekan lewat belanja</h3><p>Cek rantai pasok produk bersawit (minyak goreng, sabun, sampo, pasta gigi, kosmetik). Lihat <i>Palm Oil Buyers Scorecard</i> WWF. Yang penting bukan logo "berkelanjutan", tapi seberapa jelas asal-usul bahannya.</p>',
+a2:'<h3>Cermati pilkada</h3><p>Bupati dan gubernur ikut menentukan tata ruang dan pengawasan. Periksa siapa pendana kampanyenya dan apakah ada konflik kepentingan dengan industri sawit.</p>',
+a3:'<h3>Dukung yang di garis depan</h3><p>Dukung komunitas dan organisasi yang tinggal di sana dan sudah lama menjaga hutan. Tanya apa kebutuhan mereka, lalu dukung kerja yang sudah berjalan.</p>',
+pl0:'Belum ada yang ditandai.',pl1:'Satu langkah. Perubahan besar dimulai dari sini.',pl2:'Dua langkah. Tekanan publik makin terasa.',pl3:'Ketiganya! Kamu bagian dari solusi.',
+share:'Bagikan halaman ini',shareCopied:'Tautan disalin.',shareText:'Karhutla bukan sekadar bencana alam. Pahami akar masalahnya.',
+glH:'Istilah singkat',
+gloss:[['Karhutla','Kebakaran hutan dan lahan.'],['Gambut','Tanah dari timbunan sisa tumbuhan yang selalu basah. Jika dikeringkan, ia mudah terbakar.'],['Konsesi','Wilayah yang izin pengelolaannya diberikan pemerintah kepada perusahaan, misalnya untuk sawit, tambang, atau kayu.'],['Kanal','Parit buatan untuk mengalirkan air. Di gambut, kanal mengeringkan lahan.'],['Eksternalitas negatif','Kerugian yang ditanggung orang lain, bukan pelaku yang mendapat untung.'],['Tanggung jawab mutlak','Pemilik wilayah bertanggung jawab atas kerusakan di wilayahnya tanpa perlu dibuktikan siapa penyulutnya.'],['Kawasan hutan vs APL','Kawasan hutan adalah status hukum lahan, bukan berarti penuh pohon. APL (areal penggunaan lain) boleh dibuka untuk keperluan lain seperti kebun.'],['OSS','Sistem perizinan usaha daring (Online Single Submission) yang menggantikan sebagian proses izin berlapis.']],
+fAbout:'Halaman edukasi independen. Sebagian besar narasi berdasarkan video <a href="https://www.youtube.com/watch?v=aks6P_onYqo" target="_blank" rel="noopener">"Pahami Akar Masalah Kebakaran Hutan"</a> (seri Second Thoughts, riset Formis.id), dilengkapi sumber lain.',
+fSrcH:'Daftar sumber',
+fList:`<li><span class="tag">Data resmi</span><a href="https://sipongi.menlhk.go.id" target="_blank" rel="noopener">SiPongi, sistem data karhutla</a></li>
+<li><span class="tag">Media</span><a href="https://data.goodstats.id/statistic/kalimantan-barat-jadi-provinsi-dengan-karhutla-terluas-capai-38-ribu-ha-7ocLY" target="_blank" rel="noopener">GoodStats: karhutla 2026</a></li>
+<li><span class="tag">Media</span><a href="https://goodstats.id/article/provinsi-dengan-luas-kebakaran-hutan-terbesar-2024-jliXO" target="_blank" rel="noopener">GoodStats: karhutla 2024</a></li>
+<li><span class="tag">Media</span><a href="https://mongabay.co.id/2019/10/21/problema-tata-kelola-gambut/amp/" target="_blank" rel="noopener">Mongabay: tata kelola gambut (data 2015)</a></li>
+<li><span class="tag">Media</span><a href="https://mongabay.co.id/2016/12/15/catatan-hukum-peraturan-gambut-lama-vs-baru/amp/" target="_blank" rel="noopener">Mongabay: PP gambut lama vs baru (batas 40 cm)</a></li>
+<li><span class="tag">Riset</span><a href="https://www.thejakartapost.com/news/2016/09/20/haze-caused-thousands-deaths-ri-2015-study" target="_blank" rel="noopener">The Jakarta Post: studi Harvard–Columbia soal asap 2015</a></li>
+<li><span class="tag">Riset</span><a href="https://library.alnap.org/system/files/content/resource/files/main/trialbyfire.pdf" target="_blank" rel="noopener">Trial by Fire (WRI, WWF-Indonesia, Telapak)</a></li>
+<li><span class="tag">Riset</span><a href="https://news.mongabay.com/2020/08/indonesia-welfare-program-poverty-alleviation-pkh-deforestation-study/" target="_blank" rel="noopener">Mongabay: studi PKH dan deforestasi (Science Advances 2020)</a></li>
+<li><span class="tag">LSM</span><a href="https://www.greenpeace.org/indonesia/laporan/59567/karhutla-kronis/" target="_blank" rel="noopener">Greenpeace Indonesia: Karhutla Kronis</a></li>
+<li><span class="tag">LSM</span><a href="https://www.greenpeace.org/indonesia/siaran-pers/5406/greenpeace-menemukan-perusakan-lahan-gambut-dan-memicu-kebakaran-hutan-oleh-asia-pulp-and-paper/" target="_blank" rel="noopener">Greenpeace: kanal di gambut konsesi</a></li>
+<li><span class="tag">Hukum</span><a href="https://www.cnnindonesia.com/nasional/20151104170831-20-89487/masyarakat-adat-tidak-asal-bakar-hutan/" target="_blank" rel="noopener">CNN Indonesia: syarat kearifan lokal UU 32/2009</a></li>`,
+fNote:'Catatan: angka yang berasal dari video atau LSM ditandai di tempatnya dan sebaiknya diverifikasi ke data resmi sebelum dikutip. Data karhutla terus diperbarui.',
+cur:'id-ID',rpB:'miliar',rpT:'triliun',rpJ:'juta',dec:','
+},
+en:{
+htmlLang:'en',title:'Fire, Kept Alive — The Root Causes of Indonesia\'s Forest Fires',
+desc:'Forest and land fires are not just natural disasters. Understand the root causes through an interactive explainer.',
+menu:'Open menu',menuClose:'Close menu',
+nSkala:'Scale',nSebab:'Causes',nEkon:'Money',nHukum:'Law',nSolusi:'Solutions',nAksi:'Act',
+heroEy:'Interactive explainer · Indonesia\'s forest fires',
+heroH:'Fire is <em>kept alive</em>, it doesn\'t fall from the sky.',
+heroP:'Every year we get angry, share the news, then forget. Yet forest and land fires can be predicted, because people create the risk. Let\'s trace the roots, not just the smoke.',
+heroBtn:'Start exploring ↓',scroll:'SCROLL',
+tlTitle:'30-second summary',
+tl1h:'Many fires are set on purpose',tl1p:'Burning is cheap. It costs about Rp50–90 thousand per hectare, while heavy machinery costs Rp5–15 million.',
+tl2h:'Drained peat catches fire easily',tl2p:'Wet peat barely burns. Once drained by canals, it becomes fuel that can smolder for months.',
+tl3h:'The law exists, enforcement is weak',tl3p:'Burning has been banned since 2009. But overlapping permits and weak oversight keep the fires coming back.',
+s1ey:'01 · Scale',s1h:'How much has burned?',unitHa:'hectares',
+s1p:'According to SiPongi, the Ministry of Forestry\'s data system, about 202,000 hectares of forest and land burned from January to August 2026. The number keeps changing, so check SiPongi for the latest.',
+cmpJ:'Size of Jakarta',cmpJb:'≈ 66,000 ha',cmpF:'Area burned',cmpFb:'202,000 ha ≈ 3× Jakarta',
+s1src:'Jakarta\'s area (±661 km²) is a rough estimate. 2026 figure from <a href="https://data.goodstats.id/statistic/kalimantan-barat-jadi-provinsi-dengan-karhutla-terluas-capai-38-ribu-ha-7ocLY" target="_blank" rel="noopener">GoodStats</a> (citing SiPongi) and <a href="https://sipongi.menlhk.go.id" target="_blank" rel="noopener">SiPongi</a>. Sources are in Indonesian.',
+yrH:'Year by year',yrP:'Pick a year to see the bigger picture.',yrAria:'Choose a year',
+y2015:'More than 2.6 million hectares burned, about 891,000 of them peatland. The government announced losses of around Rp221 trillion. A Harvard–Columbia study estimated the smoke caused about 100,300 premature deaths across Indonesia, Malaysia, and Singapore (about 91,600 in Indonesia).',
+y2023:'About 1.16 million hectares burned according to the Ministry of Environment and Forestry (KLHK), including 182,789 hectares of peat. A Greenpeace analysis put it at no less than 2.13 million hectares. Different methods give different numbers.',
+y2024:'About 283,620 hectares burned through September 2024 (SiPongi data). Largest areas: East Nusa Tenggara (±93,572 ha), West Nusa Tenggara (±34,430 ha), and East Java (±18,823 ha). So fires are not only a Sumatra and Kalimantan problem.',
+y2026:'About 202,011 hectares burned in 2026 per SiPongi. Largest province: West Kalimantan with about 38,311 hectares.',
+yrSrc:'Sources (Indonesian unless noted): <a href="https://mongabay.co.id/2019/10/21/problema-tata-kelola-gambut/amp/" target="_blank" rel="noopener">Mongabay</a> (2015), <a href="https://www.thejakartapost.com/news/2016/09/20/haze-caused-thousands-deaths-ri-2015-study" target="_blank" rel="noopener">The Jakarta Post</a> (Harvard–Columbia study, English), <a href="https://www.greenpeace.org/indonesia/laporan/59567/karhutla-kronis/" target="_blank" rel="noopener">Greenpeace Indonesia</a> (2023), <a href="https://goodstats.id/article/provinsi-dengan-luas-kebakaran-hutan-terbesar-2024-jliXO" target="_blank" rel="noopener">GoodStats</a> (2024).',
+s2ey:'02 · Causes',s2h:'A natural disaster? No.',
+s2p:'El Niño does bring dry seasons every few years, and climate change makes them stronger. But that only <b>sets the stage</b>. What makes land flammable and fires hard to put out are human decisions: unlimited land clearing, draining peatlands, handing out permits carelessly, and weak oversight.',
+expH:'The peat experiment',expP:'Slide to dig drainage canals. Then light a spark.',
+peatAria:'Cross-section of peatland with a canal and water level',svgSurf:'ground surface',svgLimit:'safe limit 40 cm',
+lblDepth:'Water level dropped:',lblWet:'still wet',lblDry:'drained by canals',lblFlam:'How flammable',
+spark:'🔥 Light a spark',reset:'Reset',
+peatInit:'Wet peat holds water like a sponge. Try lighting a spark.',
+pOK:'The spark dies quickly. The water level is down {d} cm, still within the safe limit, so the peat stays wet and hard to burn.',
+pMid:'The water level is down {d} cm, past the 40 cm limit. The top layer of peat dries out and the fire starts to spread. Try sliding deeper.',
+pHigh:'The peat is dry deep down. Fire spreads widely, creeps underground, is very hard to put out, and releases lots of carbon and smoke.',
+pdH:'Why peat is a trap',
+pd1:'Peat is a layer of plant remains that is always wet. While wet, it almost cannot burn. When drained by canals for plantations, it turns into fuel. Fire can creep underground and smolder for months.',
+pd2:'Government regulation (PP 57/2016, amending PP 71/2014) says peat used for cultivation counts as damaged if its water level is more than 40 cm below the surface.',
+pd3:'Greenpeace found about 53 km of new canals dug into peat in pulpwood concessions to dry the land, and that dried land can burn for months. This finding comes from an NGO.',
+pdSrc:'This simulation is simplified for education, not a scientific model. Sources (Indonesian): <a href="https://mongabay.co.id/2016/12/15/catatan-hukum-peraturan-gambut-lama-vs-baru/amp/" target="_blank" rel="noopener">Mongabay: old vs new peat regulation</a>, <a href="https://www.greenpeace.org/indonesia/siaran-pers/5406/greenpeace-menemukan-perusakan-lahan-gambut-dan-memicu-kebakaran-hutan-oleh-asia-pulp-and-paper/" target="_blank" rel="noopener">Greenpeace</a>.',
+s3ey:'03 · Fire and local wisdom',s3h:'Is burning always wrong?',
+s3p1:'People across the archipelago have used fire to manage land for thousands of years. In Kalimantan, ecological evidence shows human land burning for at least 2,500 years. Communities such as the Dayak, Baduy, and Kasepuhan developed controlled burning with firebreaks, shared supervision, and customary penalties.',
+s3p2:'Law 32/2009 bans clearing land by burning, unless local wisdom is respected. Tick the three conditions below to see whether a burn would qualify.',
+c1:'<b>At most 2 hectares</b> per household',c2:'<b>Only for local crop varieties</b> (not industrial commodities)',c3:'<b>Surrounded by firebreaks</b> so fire doesn\'t spread',
+v0:'No condition met. Burning like this is prohibited.',
+vN:'Only {n} of 3 conditions. Until all are met, the burn is still illegal.',
+v3:'All three conditions met, so it falls under the local wisdom exception. Example: a family-scale rotational field with firebreaks.',
+cmpH:'Compare with palm oil companies',
+cmp1:'A palm oil concession holder can never be burning just 2 hectares. Oil palm comes from Africa, not a local variety. And it often happens on peat that has been drained, so fire spreads easily.',
+cmp2:'The report <i>Trial by Fire</i> (Barber &amp; Schweithelm, WRI with WWF-Indonesia and Telapak, around 2000) already named plantation companies as the main igniters. More than 20 years later the pattern looks similar: per a Kompas report cited in the video, over 50% of hotspots in Kalimantan sit inside concession areas.',
+s3src:'Sources: the 2-hectare, local variety, and firebreak conditions come from the elucidation of Law 32/2009 Article 69 (<a href="https://www.cnnindonesia.com/nasional/20151104170831-20-89487/masyarakat-adat-tidak-asal-bakar-hutan/" target="_blank" rel="noopener">CNN Indonesia</a>, Indonesian); <a href="https://library.alnap.org/system/files/content/resource/files/main/trialbyfire.pdf" target="_blank" rel="noopener">Trial by Fire</a> (English). This provision has been discussed in connection with the Job Creation Law changes, so check the latest text.',
+s4ey:'04 · Money',s4h:'The false bargain',
+s4p:'Clearing land with fire costs only Rp50,000–90,000 per hectare. With heavy machinery it can be Rp5–15 million per hectare. No wonder many choose fire. The catch is that someone else pays the real cost: people\'s health, school closures, empty tourist spots, and carbon emissions. Economists call this a <b>negative externality</b>: a cost pushed onto people who did not share the profit.',
+calcH:'Land clearing cost calculator',calcL:'Land size (hectares)',
+cFireL:'By burning (midpoint estimate Rp70 thousand/ha)',cMachL:'With heavy machinery (midpoint estimate Rp10 million/ha)',
+cSaveL:'Amount "saved" by the burner',cFineL:'Potential loss if proven to have burned, per GAPKI\'s calculation (Rp1.8 billion/ha)',
+calcSrc:'The cost ranges and the GAPKI figure are quoted from the source video and not independently verified. Midpoints are used for easy math. A fine only matters if it is enforced.',
+payH:'Who pays the bill?',
+pay1:'<b>Health:</b> the video cites over 72,000 acute respiratory infection (ISPA) cases, per the ISPA coalition, through the third week of August.',
+pay2:'<b>Lives:</b> a Harvard–Columbia study estimated the 2015 fire smoke caused about 100,300 premature deaths across three countries. Official government counts were far lower.',
+pay3:'<b>Economy:</b> the 2015 fires were estimated to cost about Rp221 trillion, according to the government.',
+pay4:'Meanwhile, those who burn keep the profit.',
+paySrc:'Sources: the source video; <a href="https://www.thejakartapost.com/news/2016/09/20/haze-caused-thousands-deaths-ri-2015-study" target="_blank" rel="noopener">The Jakarta Post</a>; <a href="https://mongabay.co.id/2019/10/21/problema-tata-kelola-gambut/amp/" target="_blank" rel="noopener">Mongabay</a> (Indonesian).',
+flipH:'The land-flipping machine',flipP:'An example scheme described in the video, for former illegal-logging forest. Click each stage.',
+st1:'Stage 1',st1b:'per hectare · bought',st2:'Stage 2',st2b:'per hectare · resold',st3:'Stage 3',st3b:'per hectare · up 27× in 3 years',
+chain0:'Click a stage to see what happens.',
+chain1:'Land left over from illegal logging is bought cheaply.',
+chain2:'The land is cleared and "tidied up" on paper: certificates and compensation letters are arranged to look legitimate, then it is resold.',
+chain3:'The land is burned so it is ready to plant quickly and cheaply, then planted with oil palm. In 3 years its value rises 27-fold.',
+flipSrc:'Figures from the source video. The currency is not clearly stated, so read them as a value index per hectare.',
+s5ey:'05 · Law and governance',s5h:'Why does the fire never really go out?',s5p:'There are rules and there are penalties. But there are gaps. Pick a root cause.',
+tab1:'Law enforcement',tab2:'Land status & permits',tab3:'Politics & money',
+p1:`<h3>Blurred accountability</h3><ul>
+<li><b>Strict liability</b> (Law 32/2009 Article 88): a concession holder is responsible for damage without anyone having to prove who lit the fire. Per the video, since the Job Creation Law the phrase "without having to prove fault" was removed from the body of the law and only remains in the elucidation, making the principle ambiguous.</li>
+<li><b>Four routes to penalties:</b> administrative (sealing, fines, permit revocation), criminal (companies and management), civil (compensation and restoration), and citizen lawsuits against the government in administrative court for negligence.</li>
+<li>In practice, criminal cases still target <b>people on the ground</b> more often than the companies.</li>
+<li>On the Supreme Court decisions directory, the keyword "forest fire" since 2007 returns only about 1,400 rulings. There is no national statistic linking incidents, legal cases, and fines actually paid (per the video).</li></ul>`,
+p2:`<h3>Overlapping maps</h3><ul>
+<li>In Indonesia, a <b>forest area is a legal status</b>, not a physical condition. Land classed as forest area may already contain villages, farms, and customary land.</li>
+<li>The roots go back to the colonial era and were reinforced under the New Order: land that couldn't be proven privately owned was treated as state-controlled. Boundaries and residents' rights were often never settled.</li>
+<li>The Constitutional Court stated that a line on a map is not enough, and customary forests are not state forests. Overlapping claims still cause conflict.</li>
+<li>A palm oil permit comes from a chain of decisions by many agencies. Since the Job Creation Law the process moved to a risk-based online licensing system (OSS). At every step there is risk of overlapping permits and land conflicts.</li>
+<li>Fire ignores lines on maps, so it spreads far and is hard to pin on one company.</li></ul>`,
+p3:`<h3>Lopsided incentives</h3><ul>
+<li>The palm oil industry hit a record of about US$40 billion last year and contributes about 3.5% of GDP, per the video. The bigger the economic value, the bigger the temptation not to enforce the rules.</li>
+<li>Government and industry are closely tied, through concession ownership and campaign funding (per the video).</li>
+<li>Oversight has limited resources, and collusion between companies and local officials is common.</li>
+<li>National strategic projects are also a risk: per data cited in the video, 154 smoke points sit in strategic project locations, amid a 3-million-hectare food estate target.</li></ul>`,
+s5src:'Most points in this section are quoted from the <a href="https://www.youtube.com/watch?v=aks6P_onYqo" target="_blank" rel="noopener">source video</a> (research by Formis.id) and are not independently verified. Check the official text of laws and rulings before quoting.',
+tlH:'Timeline',
+t1:'<b>~2,500 years ago</b><br>Evidence of controlled land burning in Kalimantan.',
+t2:'<b>~2000</b><br><i>Trial by Fire</i> names plantation companies as the main igniters.',
+t3:'<b>2009</b><br>Law 32/2009 bans clearing land by burning, with a local wisdom exception.',
+t4:'<b>2015</b><br>Major fires: more than 2.6 million hectares burned.',
+t5:'<b>Job Creation Law era</b><br>Strict liability becomes ambiguous; permitting shifts to risk-based OSS.',
+t6:'<b>2026</b><br>About 202,000 hectares burned through August.',
+s6ey:'06 · The way out',s6h:'What needs fixing?',
+s6p:'According to <i>Trial by Fire</i> and the video research team\'s recommendations, three big things: <b>economic incentives</b>, <b>forest and land governance</b>, and <b>law enforcement</b>. Here is what that looks like in practice.',
+so1:'<h3>🌊 Rewet the peat</h3><p style="margin-top:8px">Top priority: restore the water level. Block or manage canals, rewet the land, and choose crops that suit peat, instead of forcing peat to suit palm oil.</p>',
+so2:'<h3>🔍 Watch the permitted</h3><p style="margin-top:8px">Not just checking paperwork: are canals draining peat, does firefighting equipment work, and do fires keep recurring in the same concessions?</p>',
+so3:'<h3>🗺️ Transparency &amp; One Map</h3><p style="margin-top:8px">Open up data on owners, boundaries, permits, and whether villages or customary lands are inside. Resolve overlapping claims and the many versions of maps.</p>',
+so4:'<h3>🏛️ Strengthen local government</h3><p style="margin-top:8px">Give district and provincial governments the funds and capacity to plan land use, supervise, and protect residents.</p>',
+so5:'<h3>🌱 An economy that doesn\'t burn</h3><p style="margin-top:8px">Agroforestry, non-timber forest products (coffee, nutmeg, honey, bamboo), community ecotourism, and payment for environmental services. A study by Ferraro &amp; Simorangkir (Science Advances, 2020) found the PKH cash transfer cut forest loss by about 30% on average in recipient villages.</p>',
+so6:'<h3>🛡️ Prevent all year round</h3><p style="margin-top:8px">Patrols in high-risk areas, monitoring with residents, clearing land without burning, and fast response with a clear chain of command. Not renting helicopters after the fire has grown.</p>',
+s6src:'PKH study source: <a href="https://news.mongabay.com/2020/08/indonesia-welfare-program-poverty-alleviation-pkh-deforestation-study/" target="_blank" rel="noopener">Mongabay</a> (English). Other recommendations are from the source video.',
+s7ey:'07 · Your part',s7h:'What can we do?',s7p:'Ordinary people are not just spectators. Mark the commitments you are ready to make.',
+a1:'<h3>Press through shopping</h3><p>Check the supply chain of products that contain palm oil (cooking oil, soap, shampoo, toothpaste, cosmetics). See WWF\'s <i>Palm Oil Buyers Scorecard</i>. What matters is not a "sustainable" logo, but how clearly the ingredients can be traced.</p>',
+a2:'<h3>Watch local elections</h3><p>Regents and governors help shape land-use planning and oversight. Check who funds their campaigns and whether they have conflicts of interest with the palm oil industry.</p>',
+a3:'<h3>Back the front line</h3><p>Support communities and organizations that live there and have long protected the forest. Ask what they need, then back the work already under way.</p>',
+pl0:'Nothing marked yet.',pl1:'One step. Big change starts here.',pl2:'Two steps. Public pressure grows.',pl3:'All three! You\'re part of the solution.',
+share:'Share this page',shareCopied:'Link copied.',shareText:'Forest fires are not just a natural disaster. Understand the root causes.',
+glH:'Quick glossary',
+gloss:[['Karhutla','Short for kebakaran hutan dan lahan: forest and land fires.'],['Peat','Soil made of plant remains that is always wet. When drained, it burns easily.'],['Concession','Land that the government has licensed to a company, for example for palm oil, mining, or timber.'],['Canal','A man-made ditch that moves water away. In peat, canals dry out the land.'],['Negative externality','A cost paid by other people, not by the party that profits.'],['Strict liability','The holder of an area is responsible for damage there without anyone needing to prove who lit the fire.'],['Forest area vs APL','A forest area is a legal status of land, not necessarily full of trees. APL (other-use area) can be opened for other uses such as plantations.'],['OSS','Online Single Submission, the online business licensing system that replaced part of the layered permit process.']],
+fAbout:'An independent educational page. Most of the narrative is based on the video <a href="https://www.youtube.com/watch?v=aks6P_onYqo" target="_blank" rel="noopener">"Pahami Akar Masalah Kebakaran Hutan"</a> (Second Thoughts series, research by Formis.id), supplemented with other sources.',
+fSrcH:'Sources',
+fList:`<li><span class="tag">Official data</span><a href="https://sipongi.menlhk.go.id" target="_blank" rel="noopener">SiPongi, the fire data system (Indonesian)</a></li>
+<li><span class="tag">Media</span><a href="https://data.goodstats.id/statistic/kalimantan-barat-jadi-provinsi-dengan-karhutla-terluas-capai-38-ribu-ha-7ocLY" target="_blank" rel="noopener">GoodStats: 2026 fires (Indonesian)</a></li>
+<li><span class="tag">Media</span><a href="https://goodstats.id/article/provinsi-dengan-luas-kebakaran-hutan-terbesar-2024-jliXO" target="_blank" rel="noopener">GoodStats: 2024 fires (Indonesian)</a></li>
+<li><span class="tag">Media</span><a href="https://mongabay.co.id/2019/10/21/problema-tata-kelola-gambut/amp/" target="_blank" rel="noopener">Mongabay: peat governance (2015 data, Indonesian)</a></li>
+<li><span class="tag">Media</span><a href="https://mongabay.co.id/2016/12/15/catatan-hukum-peraturan-gambut-lama-vs-baru/amp/" target="_blank" rel="noopener">Mongabay: old vs new peat regulation (40 cm limit, Indonesian)</a></li>
+<li><span class="tag">Research</span><a href="https://www.thejakartapost.com/news/2016/09/20/haze-caused-thousands-deaths-ri-2015-study" target="_blank" rel="noopener">The Jakarta Post: Harvard–Columbia study on the 2015 haze</a></li>
+<li><span class="tag">Research</span><a href="https://library.alnap.org/system/files/content/resource/files/main/trialbyfire.pdf" target="_blank" rel="noopener">Trial by Fire (WRI, WWF-Indonesia, Telapak)</a></li>
+<li><span class="tag">Research</span><a href="https://news.mongabay.com/2020/08/indonesia-welfare-program-poverty-alleviation-pkh-deforestation-study/" target="_blank" rel="noopener">Mongabay: PKH and deforestation study (Science Advances 2020)</a></li>
+<li><span class="tag">NGO</span><a href="https://www.greenpeace.org/indonesia/laporan/59567/karhutla-kronis/" target="_blank" rel="noopener">Greenpeace Indonesia: Chronic Fires (Indonesian)</a></li>
+<li><span class="tag">NGO</span><a href="https://www.greenpeace.org/indonesia/siaran-pers/5406/greenpeace-menemukan-perusakan-lahan-gambut-dan-memicu-kebakaran-hutan-oleh-asia-pulp-and-paper/" target="_blank" rel="noopener">Greenpeace: canals in concession peat (Indonesian)</a></li>
+<li><span class="tag">Law</span><a href="https://www.cnnindonesia.com/nasional/20151104170831-20-89487/masyarakat-adat-tidak-asal-bakar-hutan/" target="_blank" rel="noopener">CNN Indonesia: local wisdom conditions in Law 32/2009</a></li>`,
+fNote:'Note: figures that come from the video or NGOs are flagged where they appear and should be checked against official data before quoting. Fire data is updated continuously.',
+cur:'en-US',rpB:'billion',rpT:'trillion',rpJ:'million',dec:'.'
+}};
+
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+let store={};try{store=JSON.parse(localStorage.getItem('karhutla')||'{}')}catch(e){}
+const save=()=>{try{localStorage.setItem('karhutla',JSON.stringify(store))}catch(e){}};
+let lang=store.lang==='en'?'en':'id';
+const t=k=>T[lang][k];
+const num=n=>n.toLocaleString(t('cur'));
+const rp=n=>{const f=(x)=>x.toLocaleString(t('cur'),{maximumFractionDigits:1});
+  return n>=1e12?'Rp'+f(n/1e12)+' '+t('rpT'):n>=1e9?'Rp'+f(n/1e9)+' '+t('rpB'):n>=1e6?'Rp'+f(n/1e6)+' '+t('rpJ'):'Rp'+num(Math.round(n))};
+
+// state used by dynamic text
+let yr='2026',chainKey=null,peatState='init',pickedN=0;
+
+function render(){
+  const d=T[lang];
+  document.documentElement.lang=d.htmlLang;document.title=d.title;
+  document.querySelector('meta[name="description"]').setAttribute('content',d.desc);
+  $$('[data-i]').forEach(el=>{const v=d[el.dataset.i];if(typeof v==='string')el.innerHTML=v});
+  $$('[data-ia]').forEach(el=>el.setAttribute('aria-label',d[el.dataset.ia]));
+  $$('[data-lang]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lang===lang));
+  $('#burger').setAttribute('aria-label',$('#mmenu').classList.contains('open')?d.menuClose:d.menu);
+  $('#yrText').innerHTML=d['y'+yr];
+  $('#chainTxt').innerHTML=chainKey?d[chainKey]:d.chain0;
+  $('#gloss').innerHTML=d.gloss.map(g=>`<details><summary>${g[0]}</summary><p>${g[1]}</p></details>`).join('');
+  verdict();pl();calc();peatText();
+  $('#shareMsg').textContent='';
+}
+
+// language
+$$('[data-lang]').forEach(b=>b.onclick=()=>{lang=b.dataset.lang;store.lang=lang;save();render()});
+
+// mobile menu
+const mm=$('#mmenu');
+function setMenu(o){mm.classList.toggle('open',o);$('#burger').setAttribute('aria-expanded',o);$('#burger').setAttribute('aria-label',o?t('menuClose'):t('menu'));
+  $('#bpath').setAttribute('d',o?'M6 6l12 12M18 6L6 18':'M4 7h16M4 12h16M4 17h16')}
+$('#burger').onclick=()=>setMenu(!mm.classList.contains('open'));
+$$('#mmenu a').forEach(a=>a.onclick=()=>setMenu(false));
+addEventListener('keydown',e=>{if(e.key==='Escape')setMenu(false)});
+addEventListener('resize',()=>{if(innerWidth>860)setMenu(false)});
+
+// progress
+addEventListener('scroll',()=>{const h=document.documentElement;$('#bar').style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%'},{passive:true});
+
+// reveal + count
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.1});
+$$('.rv').forEach(el=>io.observe(el));
+function countUp(){const el=$('#count'),to=+el.dataset.to;if(reduce){el.textContent=num(to);return}
+  const t0=performance.now();(function f(n){const p=Math.min(1,(n-t0)/1800);el.textContent=num(Math.round(to*(1-Math.pow(1-p,3))));if(p<1)requestAnimationFrame(f)})(t0)}
+new IntersectionObserver((es,o)=>{if(es[0].isIntersecting){countUp();$$('.cmp-bar').forEach(b=>b.style.width=b.dataset.w+'%');o.disconnect()}},{threshold:.3}).observe($('#compare'));
+
+// years
+$$('#yrChips .chip').forEach(c=>c.onclick=()=>{yr=c.dataset.k;$$('#yrChips .chip').forEach(x=>x.classList.toggle('on',x===c));$('#yrText').innerHTML=t('y'+yr)});
+
+// peat sim
+const drain=$('#drain');let burned=false;
+const flam=()=>Math.min(100,Math.max(4,(+drain.value/120)*100));
+function peatUpdate(){
+  const d=+drain.value,y=70+d*1.2;
+  $('#wt').textContent=d+' cm';
+  $('#water').setAttribute('y',y);$('#water').setAttribute('height',240-y);
+  const cw=20+d*.3;$('#canal').setAttribute('width',cw);$('#canal').setAttribute('x',200-cw/2);$('#canal').setAttribute('height',Math.min(150,60+d*1.2));
+  $('#gp').style.left=flam()+'%';
+  $('#peatBody').setAttribute('fill',d<=40?'#3a2a1f':'#6b4426');
+  $('#trees').setAttribute('opacity',burned?.15:Math.max(.35,1-d/260));
+}
+function peatText(){const d=+drain.value;const m={init:t('peatInit'),ok:t('pOK'),mid:t('pMid'),high:t('pHigh')}[peatState];$('#peatMsg').textContent=m.replace('{d}',d)}
+function mkFire(n,spread){const g=$('#fire');g.innerHTML='';
+  for(let i=0;i<n;i++){const x=200+(Math.random()-.5)*spread,y=64+Math.random()*(burned?60:10);
+    g.insertAdjacentHTML('beforeend',`<path d="M${x} ${y} q-7 -12 0 -26 q3 8 8 10 q-1 -6 2 -9 q8 12 -2 25 z" fill="${i%2?'#ff5a1f':'#ffb02e'}"/>`)}
+  g.setAttribute('opacity',1)}
+function resetFire(){burned=false;$('#fire').innerHTML='';$('#fire').setAttribute('opacity',0);peatState='init';peatUpdate();peatText()}
+drain.oninput=()=>{if(burned||peatState!=='init')resetFire();else{peatUpdate();peatText()}};
+$('#spark').onclick=()=>{const d=+drain.value;
+  if(d<=40){burned=false;mkFire(3,50);setTimeout(()=>{if(peatState==='ok')$('#fire').setAttribute('opacity',0)},1600);peatState='ok'}
+  else{burned=true;mkFire(Math.min(40,Math.round(8+d/3.5)),Math.min(380,60+d*3.2));peatState=d>80?'high':'mid'}
+  peatUpdate();peatText()};
+$('#reset').onclick=()=>{drain.value=10;resetFire()};
+
+// local wisdom check
+const checks=$$('.check');
+function verdict(){const n=checks.filter(c=>c.getAttribute('aria-pressed')==='true').length,v=$('#verdict');
+  v.className='verdict '+(n===3?'yes':'no');
+  v.textContent=n===3?t('v3'):n===0?t('v0'):t('vN').replace('{n}',n)}
+checks.forEach(c=>c.onclick=()=>{const on=c.getAttribute('aria-pressed')!=='true';c.setAttribute('aria-pressed',on);c.querySelector('.bx').textContent=on?'✓':'';verdict()});
+
+// calculator
+function calc(){const h=Math.max(0,+$('#ha').value||0);
+  $('#cFire').textContent=rp(h*70000);$('#cMach').textContent=rp(h*10e6);$('#cSave').textContent=rp(h*(10e6-70000));$('#cFine').textContent=rp(h*1.8e9)}
+$('#ha').oninput=calc;
+
+// chain
+$$('#chain .step').forEach(s=>s.onclick=()=>{chainKey=s.dataset.s;$$('#chain .step').forEach(x=>x.setAttribute('aria-pressed',x===s));$('#chainTxt').innerHTML=t(chainKey)});
+
+// tabs
+$$('#tabs .tab').forEach(b=>b.onclick=()=>{$$('#tabs .tab').forEach(x=>x.setAttribute('aria-selected',x===b));$$('.panel').forEach(p=>p.classList.toggle('on',p.id===b.dataset.p))});
+
+// pledge
+function pl(){pickedN=$$('.act[aria-pressed=true]').length;$('#plMsg').textContent=t('pl'+pickedN)}
+$$('.act').forEach(a=>{if(store[a.dataset.id])a.setAttribute('aria-pressed',true);
+  a.onclick=()=>{const on=a.getAttribute('aria-pressed')!=='true';a.setAttribute('aria-pressed',on);store[a.dataset.id]=on;save();pl()}});
+$('#share').onclick=async()=>{const d={title:document.title,text:t('shareText'),url:location.href};
+  try{if(navigator.share){await navigator.share(d)}else{await navigator.clipboard.writeText(location.href);$('#shareMsg').textContent=t('shareCopied')}}catch(e){}};
+
+// embers
+const cv=$('#embers'),cx=cv.getContext('2d');let W,H,ps=[];
+function rs(){const r=devicePixelRatio||1;W=cv.offsetWidth;H=cv.offsetHeight;cv.width=W*r;cv.height=H*r;cx.setTransform(r,0,0,r,0,0)}
+function mk(init){return{x:Math.random()*W,y:init?Math.random()*H:H+10,r:Math.random()*2.4+.6,v:Math.random()*.9+.3,dx:(Math.random()-.5)*.5,a:Math.random()*.7+.3,ph:Math.random()*6}}
+rs();addEventListener('resize',rs);ps=Array.from({length:innerWidth<600?50:90},()=>mk(true));
+function loop(){cx.clearRect(0,0,W,H);
+  for(const p of ps){p.y-=p.v;p.x+=p.dx+Math.sin(p.ph+=.02)*.4;if(p.y<-10)Object.assign(p,mk(false));
+    cx.globalAlpha=p.a*Math.min(1,p.y/H+.2);cx.fillStyle=p.r>1.8?'#ffb02e':'#ff5a1f';cx.beginPath();cx.arc(p.x,p.y,p.r,0,6.3);cx.fill()}
+  requestAnimationFrame(loop)}
+if(reduce){cx.fillStyle='#ff5a1f';ps.forEach(p=>{cx.globalAlpha=.5;cx.beginPath();cx.arc(p.x,p.y,p.r,0,6.3);cx.fill()})}else loop();
+
+render();peatUpdate();
+})();
+</script>
+</body>
+</html>
